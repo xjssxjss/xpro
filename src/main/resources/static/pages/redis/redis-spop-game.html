@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>redis pop游戏</title>
+    <script src="https://libs.baidu.com/jquery/1.8.3/jquery.min.js"></script>
+    <style type="text/css">
+        .viewSpan{
+            display:inline-block;
+            width:20px;
+            height:20px;
+            margin:3px;
+            border:1px solid red;
+            padding:10px;
+            text-align:center;
+            line-height:20px;
+        }
+
+        .randomSpan{
+            display:inline-block;
+            width:30px;
+            height:30px;
+            padding:3px;
+            border:1px solid green;
+            text-align:center;
+            line-height:30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sListDiv">
+
+    </div>
+    <br/>
+    <div id="randomNum">出栈值:</div>
+    <br/>
+    <button id="popNum" style="width:80px;height:40px;background-color:lightBlue;border-radius=30%;">随机数值</button>
+    <br/><br/>
+    <form id="setNumform">
+        <input name="setNum" type="text" placeholder="请输入100以内整数数值" />
+    </form>
+    <button id="resetNum">重置</button>
+</body>
+<script>
+
+    function getSetMembers(){
+        $.ajax({
+            url:'/xpro/jedisController/getSetsList',
+            method:'POST',
+            success:function(data){
+                var beginDiv = '<span class="viewSpan">';
+
+                var endDiv = '</span>';
+
+                var viewStr = '';
+
+                var listData = data.split(",");
+                console.log(listData);
+                for(var i=0;i<listData.length;i++){
+                    viewStr += beginDiv;
+                    viewStr += listData[i];
+                    viewStr += endDiv;
+                }
+                $('#sListDiv').html(viewStr);
+            }
+        });
+    }
+    $(function(){
+        getSetMembers();
+
+        //点击出栈
+        $('#popNum').bind('click',function(){
+            $.ajax({
+                url:'/xpro/jedisController/delSets',
+                method:'POST',
+                success:function(data){
+                    if(data == ""){
+                        $('#randomNum').html("出栈值:"+"<span style='padding:3px;display:inline-block;;color:red;'>集合为空,无法获取数据!!</span>");
+                    } else {
+                        var beginSpan = '<span class="randomSpan">';
+
+                        var endSpan = '</span>';
+                        $('#randomNum').html("出栈值:"+beginSpan+data+endSpan);
+                        getSetMembers();
+                    }
+                }
+            });
+        });
+
+        //重置
+        $('#resetNum').bind('click',function(){
+            //判断输入数据是否正确
+            var setNum = $('input[name=setNum]').val();
+            if((''==setNum) || setNum >=100){
+                alert('请输入100以内整数数值');
+                return;
+            } else if(!$.isNumeric(setNum)) {
+                alert('请输入合法数值!!');
+                return;
+            }
+            $.ajax({
+                url:'/xpro/jedisController/resetSetsList?setNum='+setNum,
+                method:'GET',
+                success:function(data){
+                    if(data == "success"){
+                        getSetMembers();
+
+                        $('#randomNum').html("出栈值:");
+                    }
+                }
+            });
+        });
+    });
+</script>
+</html>
