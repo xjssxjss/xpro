@@ -14,7 +14,7 @@ target/
 *.ctxt
 
 # properties files
-*.properties
+#*.properties
 
 # idea files
 *.iml
