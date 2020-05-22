@@ -52,6 +52,12 @@
 			<artifactId>jedis</artifactId>
 		</dependency>
 
+		<!--spring boot整合email邮件发送-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
 		<!-- spring boot 整合 druid 阿里云数据库连接池-->
 		<dependency>
 			<groupId>com.alibaba</groupId>

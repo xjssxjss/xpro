@@ -1,6 +1,8 @@
 package com.spro.controller;
 
+import com.spro.util.EmailSender;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +20,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RequestMapping(value = "/indexController")
 @EnableSwagger2
 public class IndexController {
-
     /**
      * spring boot 项目index
      * @return
@@ -27,5 +28,14 @@ public class IndexController {
     @ApiOperation(value = "spring boot入口方法" , notes = "spring boot项目测试入口")
     public String index(){
         return "spring boot 项目学习进阶start>>>>>>";
+    }
+
+    @RequestMapping(value = "/sendEmail",method = RequestMethod.GET)
+    public void sendEmail(){
+        try {
+            EmailSender.sendMailAttachment("xieyahui@wondersgroup.com","测试邮件标题","邮件内容",new String[]{"e:\\每周计划.emmx"});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
