@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.io.Serializable;
 
@@ -29,7 +30,8 @@ public class RedisConfig {
 
         logger.info("初始化redis连接池>>>>>>>>>>>>>>");
         RedisTemplate<String,Serializable> redisTemplate = new RedisTemplate<String,Serializable>();
-        redisTemplate.setKeySerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        //redisTemplate.setKeySerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setHashKeySerializer(new GenericJackson2JsonRedisSerializer());// Hash key序列化
         redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());// Hash value序列化

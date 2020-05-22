@@ -1,5 +1,6 @@
 package com.spro.controller;
 
+import com.spro.util.RedisKeyBuilderUtil;
 import com.spro.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @description: TODO
+ * @description: jedis操作controller
  * @package_name: com.spro.controller
  * @data: 2020-5-21 15:06
  * @author: Sean
@@ -33,7 +34,7 @@ public class JedisController {
     public Map<String,Object> randomSetsList(){
         logger.info("randomSetsList>>>>>>>>>>>>>>>>>>>>>>>>>>>.");
 
-        redisUtil.sGet("sList");
+        redisUtil.sGet("XPRO:JEDIS-KEY:SET");
         return null;
     }
 
@@ -43,7 +44,7 @@ public class JedisController {
      */
     @RequestMapping(value = "getSetsList")
     public String getSetsList(){
-        Set<Object> sList = redisUtil.sGet("sList");
+        Set<Object> sList = redisUtil.sGet("XPRO:JEDIS-KEY:SET");
         StringBuffer sb = new StringBuffer();
         Iterator<Object> iterator = sList.iterator();
         while(iterator.hasNext()){
@@ -64,7 +65,7 @@ public class JedisController {
     @RequestMapping(value = "delSets")
     public Object delSets(HttpServletRequest request,
                           HttpServletResponse response) throws InterruptedException {
-        Object spop = redisUtil.spop("sList");
+        Object spop = redisUtil.spop("XPRO:JEDIS-KEY:SET");
         logger.info("spop>"+spop);
         return spop;
     }
@@ -78,11 +79,10 @@ public class JedisController {
 
         Integer setNum = Integer.parseInt(request.getParameter("setNum"));
         //删除key
-        redisUtil.del("sList");
-
+        redisUtil.del("XPRO:JEDIS-KEY:SET");
 
         for(int i=0;i<setNum;i++){
-            redisUtil.sSet("sList", (i+1)+"");
+            redisUtil.sSet(RedisKeyBuilderUtil.keyBuilder("jedis-key","set"), (i+1)+"");
         }
         return "success";
     }
