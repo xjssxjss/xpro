@@ -1,6 +1,7 @@
 package com.spro.controller;
 
-import com.spro.util.JedisUtil;
+import com.spro.util.RedisKeyBuilderUtil;
+import com.spro.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * @description: TODO
+ * @description: jedis操作controller
  * @package_name: com.spro.controller
  * @data: 2020-5-21 15:06
  * @author: Sean
@@ -25,14 +27,14 @@ import java.util.Set;
 public class JedisController {
     private static Logger logger = LoggerFactory.getLogger(JedisController.class);
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     @RequestMapping(value = "randomSetsList")
     public Map<String,Object> randomSetsList(){
         logger.info("randomSetsList>>>>>>>>>>>>>>>>>>>>>>>>>>>.");
-        JedisUtil instance = JedisUtil.getInstance();
-        JedisUtil.Sets sets = instance.new Sets();
-        Set<String> sList = sets.smembers("sList");
 
-        logger.info("sList"+sList);
+        redisUtil.sGet("XPRO:JEDIS-KEY:SET");
         return null;
     }
 
@@ -42,11 +44,9 @@ public class JedisController {
      */
     @RequestMapping(value = "getSetsList")
     public String getSetsList(){
-        JedisUtil jedisUtils = JedisUtil.getInstance();
-        JedisUtil.Sets sets = jedisUtils.new Sets();
-        Set<String> set = (Set<String>)sets.smembers("sList");
+        Set<Object> sList = redisUtil.sGet("XPRO:JEDIS-KEY:SET");
         StringBuffer sb = new StringBuffer();
-        Iterator<String> iterator = set.iterator();
+        Iterator<Object> iterator = sList.iterator();
         while(iterator.hasNext()){
             sb.append(iterator.next());
             sb.append(",");
@@ -63,10 +63,9 @@ public class JedisController {
      * @return
      */
     @RequestMapping(value = "delSets")
-    public String delSets(){
-        JedisUtil jedisUtils = JedisUtil.getInstance();
-        JedisUtil.Sets sets = jedisUtils.new Sets();
-        String spop = sets.spop("sList");
+    public Object delSets(HttpServletRequest request,
+                          HttpServletResponse response) throws InterruptedException {
+        Object spop = redisUtil.spop("XPRO:JEDIS-KEY:SET");
         logger.info("spop>"+spop);
         return spop;
     }
@@ -79,16 +78,11 @@ public class JedisController {
     public String resetSetsList(HttpServletRequest request){
 
         Integer setNum = Integer.parseInt(request.getParameter("setNum"));
-        //重置数据
-        JedisUtil jedisUtils = JedisUtil.getInstance();
-
-        JedisUtil.Keys keyObj = jedisUtils.new Keys();
         //删除key
-        keyObj.del("sList");
+        redisUtil.del("XPRO:JEDIS-KEY:SET");
 
-        JedisUtil.Sets sets = jedisUtils.new Sets();
         for(int i=0;i<setNum;i++){
-            sets.sadd("sList", (i+1)+"");
+            redisUtil.sSet(RedisKeyBuilderUtil.keyBuilder("jedis-key","set"), (i+1)+"");
         }
         return "success";
     }
