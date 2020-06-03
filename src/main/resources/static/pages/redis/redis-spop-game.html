@@ -37,7 +37,7 @@
     <button id="popNum" style="width:80px;height:40px;background-color:lightBlue;border-radius=30%;">随机数值</button>
     <br/><br/>
     <form id="setNumform">
-        <input name="setNum" type="text" placeholder="请输入100以内整数数值" />
+        <input name="setNum" type="text" placeholder="请输入1000以内整数数值" />
     </form>
     <button id="resetNum">重置</button>
 </body>
@@ -91,8 +91,8 @@
         $('#resetNum').bind('click',function(){
             //判断输入数据是否正确
             var setNum = $('input[name=setNum]').val();
-            if((''==setNum) || setNum >=100){
-                alert('请输入100以内整数数值');
+            if((''==setNum) || setNum >=1000){
+                alert('请输入1000以内整数数值');
                 return;
             } else if(!$.isNumeric(setNum)) {
                 alert('请输入合法数值!!');

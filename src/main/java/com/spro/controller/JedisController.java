@@ -55,6 +55,7 @@ public class JedisController {
         if(!"".equals(sb.toString())){
             result = sb.substring(0, sb.lastIndexOf(","));
         }
+        logger.info(result);
         return result;
     }
 

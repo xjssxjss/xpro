@@ -1,5 +1,7 @@
 package com.spro.controller;
 
+import com.spro.util.RedisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "freemarkerController")
 public class FreemarkerController {
 
+    @Autowired
+    private RedisUtil redisUtil;
     /**
      * 测试freemarker是否可用
      * @param model
      */
     @RequestMapping(value = "fkIndex")
     public String fkIndex(Model model){
-        model.addAttribute("name","谢家三少");
+        System.out.println(redisUtil.sGet("XPRO:JEDIS-KEY:SET"));
+        model.addAttribute("sList",redisUtil.sGet("XPRO:JEDIS-KEY:SET"));
         return "fkIndex";
     }
 }
