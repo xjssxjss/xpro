@@ -208,9 +208,31 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
 
+  <!-- 通过条件查询信息 -->
   <select id="queryByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select
     <include refid="Base_Column_List" />
-    from t_au_menu
+    from T_AU_MENU
+    WHERE IS_DELETED = 0
+    <if test="name != null" >
+      AND NAME LIKE "%"#{name,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="type != null and type != ''">
+      AND TYPE = #{type,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <!-- 获取用户列表总数 -->
+  <select id="queryCountByParams" resultType="int" parameterType="java.util.Map" >
+    SELECT
+    COUNT(1) AS TOTAL
+    from T_AU_MENU
+    WHERE IS_DELETED = 0
+    <if test="name != null">
+      AND NAME LIKE "%"#{name,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="type != null  and type != ''" >
+      AND TYPE = #{type,jdbcType=VARCHAR}
+    </if>
   </select>
 </mapper>

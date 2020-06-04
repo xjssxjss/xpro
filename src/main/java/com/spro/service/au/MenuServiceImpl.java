@@ -1,5 +1,7 @@
 package com.spro.service.au;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.spro.entity.au.Menu;
 import com.spro.enums.ResultCode;
 import com.spro.service.base.BaseService;
@@ -40,7 +42,7 @@ public class MenuServiceImpl extends BaseService<Menu> {
              */
             for (Menu menuObj : menus) {
                 //说明是一级菜单
-                if(menuObj.getType().equals("M")){
+                if(menuObj.getType().equals("F")){
                     menuObj.setChildren(getChildMenus(menuObj,menus));
                     listMenu.add(menuObj);
                 }
@@ -66,16 +68,16 @@ public class MenuServiceImpl extends BaseService<Menu> {
 
         for (Menu menu : menuList) {
             //排除id相同，还有不是当前父级菜单子菜单的项
-            logger.info("menuObj.getId()"+menuObj.getId()+"menu.getId()"+menu.getId());
-            if(menuObj.getId() != menu.getId() && menuObj.getId() == menu.getParentId()){
+            if(menuObj.getId() != menu.getId() && menuObj.getId() == menu.getParentId() && !menuObj.getType().equals("S")){
                 //说明为当前对象的菜单对象
                 if(null != menu.getParentId()){
                     List<Menu> menuList1 = new ArrayList<>();
                     List<Menu> menuList2 = getChildMenus(menu,menuList);
                     for (Menu menu1 : menuList2) {
-                        if(menu.getId() != menu1.getId() && menu.getId() == menu1.getParentId()){
+                        if(menu.getId() != menu1.getId() && menu.getId() == menu1.getParentId() && !menuObj.getType().equals("S")){
                             //是否设置children为null
                             //如果获取主菜单ID，在parentId中没有映射，则可以设置为null
+                            //判断如果menu1中权限type为3级的话，则添加
                             menuList1.add(menu1);
                         }
                     }
@@ -84,9 +86,37 @@ public class MenuServiceImpl extends BaseService<Menu> {
                 if(menu.getChildren().size() == 0 ){
                     menu.setChildren(null);
                 }
-                childMenuList.add(menu);
+                if(!"T".equals(menu.getType())){
+                    childMenuList.add(menu);
+                }
             }
         }
         return childMenuList;
+    }
+
+    /**
+     * 获取菜单列表数据
+     * requestParam
+     * @return
+     */
+    public Map<String,Object> getMenuListInfo(String requestParam){
+        JSONObject object = JSON.parseObject(requestParam);
+        Map<String,Object> paramMap = JSON.parseObject(object.getString("param"), HashMap.class);
+
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            //开始分页
+            startPage(paramMap);
+            List<Menu> menuList = queryByParams(paramMap);
+            resultMap.put("menuList",menuList);
+            resultMap.put("total",queryCountByParams(paramMap));
+            data = resultMap;
+            state = 200;
+        } catch (Exception e) {
+            state = 501;
+        }
+        message = ResultCode.getMessageByStateCode(state);
+
+        return result();
     }
 }

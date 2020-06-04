@@ -23,13 +23,16 @@ public abstract class BaseService<T> {
     protected BaseMapper<T> baseMapper;
 
     //分页对
-    public static PageInfo<Map<String,Object>> pageInfo = null;
+    protected static PageInfo<Map<String,Object>> pageInfo = null;
+
+    //分页参数使用Map
+    protected static Map<String,Object> pageMap = new HashMap<>();
 
     public static int state = -1;
     public static Object data = null;
     public static String message = GlobalConstant.ERROR_MESSAGE;
 
-    private static Map<String,Object> resultMap = new HashMap();
+    protected static Map<String,Object> resultMap = new HashMap();
     public static Map<String,Object> paramMap = new HashMap();
 
     protected static Map<String,Object> result = new HashMap<>();

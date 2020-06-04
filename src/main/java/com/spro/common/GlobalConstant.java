@@ -13,4 +13,6 @@ public class GlobalConstant {
      * 提示信息
      */
     public static String ERROR_MESSAGE = "数据获取失败!!";
+
+    public static final String CONTENT_TYPE = "application/vnd.ms-excel;charset=UTF-8";
 }

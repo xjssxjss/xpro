@@ -3,6 +3,7 @@ package com.spro.controller.au;
 import com.spro.common.BaseController;
 import com.spro.service.au.MenuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +34,14 @@ public class MenuController extends BaseController{
     @RequestMapping(value = "getMenus",method = RequestMethod.GET)
     public Map<String,Object> getMenus(){
         return getResultMap(menuService.getMenus());
+    }
+
+    /**
+     * 获取权限列表数据
+     * @return
+     */
+    @RequestMapping(value = "getMenuListInfo",method = RequestMethod.POST)
+    public Map<String,Object> getMenuListInfo(@RequestBody String param){
+        return getResultMap(menuService.getMenuListInfo(param));
     }
 }
