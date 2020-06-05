@@ -17,5 +17,5 @@ public class GlobalConstant {
 
     public static String PROP_SUFFIX = ".properties";   //文件常用后缀
 
-    public static final String BASE_FILE_NAMES = "email";   //所有配置文件名称,多个中间以,逗号进行分隔
+    public static final String BASE_FILE_NAMES = "email,xpro";   //所有配置文件名称,多个中间以,逗号进行分隔
 }

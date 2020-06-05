@@ -1,5 +1,6 @@
 package com.spro.controller;
 
+import com.spro.common.BaseController;
 import com.spro.util.EmailSender;
 import com.spro.common.GlobalConstant;
 import com.spro.util.FileUtil;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping(value = "/indexController")
 @EnableSwagger2
-public class IndexController {
+public class IndexController extends BaseController{
 
     /**
      * spring boot 项目index
@@ -52,13 +53,12 @@ public class IndexController {
      * @throws Exception
      */
     @RequestMapping(value = "/downLoad", method = RequestMethod.GET)
-    public void downLoadDisToothBrushExcel(HttpServletRequest request, HttpServletResponse response)
+    public void downLoad(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
-        String downloadPath = "D:\\GIT\\spro\\src\\main\\webapp\\download\\template\\";
+        String path = resourceMap.get("download_path");
         String contentType = GlobalConstant.CONTENT_TYPE;
-        //String fileName = downLoadName;
-        //FileUtil.download(request, response, path + "\\", fileName, contentType, fileName);
+        String fileName = resourceMap.get("test_download_name");
+        FileUtil.download(request, response, path + "\\", fileName, contentType, fileName);
     }
 
 }
