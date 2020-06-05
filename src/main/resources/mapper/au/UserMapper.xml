@@ -242,6 +242,12 @@
     <if test="loginName != null" >
       AND LOGIN_NAME LIKE "%"#{loginName,jdbcType=VARCHAR}"%"
     </if>
+    <if test="userLoginName != null" >
+      AND LOGIN_NAME = #{userLoginName,jdbcType=VARCHAR}
+    </if>
+    <if test="userLoginPwd != null" >
+      AND USER_PWD = #{userLoginPwd,jdbcType=VARCHAR}
+    </if>
   </select>
 
   <!-- 获取用户列表总数 -->

@@ -24,7 +24,6 @@ import java.util.Map;
 @Service
 @Transactional
 public class UserServiceImpl extends BaseService<User>{
-
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
@@ -60,7 +59,6 @@ public class UserServiceImpl extends BaseService<User>{
      * @return
      */
     public Map<String,Object> editUserInfo(String requestParam){
-
         JSONObject object = JSON.parseObject(requestParam);
         User user = JSON.parseObject(object.getString("param"), User.class);
 

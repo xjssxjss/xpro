@@ -9,6 +9,9 @@ package com.spro.enums;
 public enum ResultCode {
     SUCCESS(200,"数据处理成功"),               //成功
     FAIL(501,"数据处理失败"),                  //失败
+    LOGIN_SUCCESS(300,"登录成功"),          //登录成功
+    LOGIN_IS_NOT_VALID(301,"此用户为无效用户!"), //登录用户为无效用户
+    LOGIN_FAIL(302,"用户名或密码有误!"),          //登录失败
     UNAUTHORIZED(401,"未认证"),          //未认证（签名错误）
     NOT_FOUND(404,"接口不存在"),             //接口不存在
     SEND_EMAIL_SUCCESS(201,"发送邮件成功!!"),

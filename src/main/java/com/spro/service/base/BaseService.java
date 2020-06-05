@@ -42,9 +42,11 @@ public abstract class BaseService<T> {
      * @return
      */
     protected static Map<String,Object> result(){
-        resultMap.put("state",state);
-        resultMap.put("message",message);
-        resultMap.put("data",(state==200) ? data: null);
+        synchronized (BaseService.class){
+            resultMap.put("state",state);
+            resultMap.put("message",message);
+            resultMap.put("data",(state==200) ? data: null);
+        }
         return resultMap;
     }
 
