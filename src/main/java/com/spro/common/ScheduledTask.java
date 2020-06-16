@@ -28,7 +28,7 @@ public class ScheduledTask extends BaseObject{
      */
     @Scheduled(cron = "*/20 * * * * ?")
     public void emailProperties() {
-        logger.info("获取email.properties中数据");
-        logger.info(resourceMap.toString());
+//        logger.info("获取email.properties中数据");
+//        logger.info(resourceMap.toString());
     }
 }

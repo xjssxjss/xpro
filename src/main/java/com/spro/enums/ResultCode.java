@@ -12,6 +12,7 @@ public enum ResultCode {
     LOGIN_SUCCESS(300,"登录成功"),          //登录成功
     LOGIN_IS_NOT_VALID(301,"此用户为无效用户!"), //登录用户为无效用户
     LOGIN_FAIL(302,"用户名或密码有误!"),          //登录失败
+    USER_NAME_REPEATE(206,"用户名已存在"),        //用户性已存在
     UNAUTHORIZED(401,"未认证"),          //未认证（签名错误）
     NOT_FOUND(404,"接口不存在"),             //接口不存在
     SEND_EMAIL_SUCCESS(201,"发送邮件成功!!"),

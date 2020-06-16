@@ -95,6 +95,34 @@ public class MenuServiceImpl extends BaseService<Menu> {
     }
 
     /**
+     * 获取菜单
+     */
+    public List<Menu> getMenuByMenuId(Integer menuId){
+        //新菜单数据集合声明
+        List<Menu> listMenu = new ArrayList<>();
+        List<Menu> menus = null;
+        try {
+            menus = queryByParams(null);
+            /**
+             * 对菜单数据进行遍历
+             */
+            for (Menu menuObj : menus) {
+                //说明是一级菜单
+                if(menuObj.getType().equals("F") && menuObj.getId().equals(menuId)){
+                    menuObj.setChildren(getChildMenus(menuObj,menus));
+                    listMenu.add(menuObj);
+                }
+            }
+
+            state = 200;
+            data = listMenu;
+        } catch (Exception e) {
+            state = 502;
+        }
+        return listMenu;
+    }
+
+    /**
      * 获取菜单列表数据
      * requestParam
      * @return

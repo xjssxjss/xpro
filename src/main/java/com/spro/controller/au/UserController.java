@@ -50,4 +50,26 @@ public class UserController extends BaseController{
         return getResultMap(userService.editUserInfo(param));
     }
 
+    /**
+     * 检查用户名是否已经存在
+     * @param request
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "checkUserName",method = RequestMethod.GET)
+    public Map<String,Object> checkUserName(String userName){
+        return getResultMap(userService.checkUserName(userName));
+    }
+
+    /**
+     * 新增用户操作
+     * @param request
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "addUser",method = RequestMethod.POST)
+    public Map<String,Object> addUser(@RequestBody String param){
+        return getResultMap(userService.addUser(param));
+    }
+
 }

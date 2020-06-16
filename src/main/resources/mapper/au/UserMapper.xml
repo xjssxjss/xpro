@@ -35,7 +35,7 @@
     delete from t_au_user
     where ID = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.spro.entity.au.User" >
+  <insert id="insert" parameterType="com.spro.entity.au.User" useGeneratedKeys="true"  keyProperty="id" keyColumn="ID" >
     insert into t_au_user (ID, LOGIN_NAME, USERNAME,
     USER_MD5_PWD, USER_PWD, PHONE,
     EMAIL, LAST_LOGIN_TIME, LAST_LOGIN_IP,
@@ -49,6 +49,7 @@
     #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
     #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
   </insert>
+
   <insert id="insertSelective" parameterType="com.spro.entity.au.User" >
     insert into t_au_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -248,6 +249,12 @@
     <if test="userLoginPwd != null" >
       AND USER_PWD = #{userLoginPwd,jdbcType=VARCHAR}
     </if>
+    <if test="email != null" >
+      AND EMAIL LIKE "%"#{email,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="isValid != null" >
+      AND IS_VALID = ${isValid}
+    </if>
   </select>
 
   <!-- 获取用户列表总数 -->
@@ -258,6 +265,9 @@
     WHERE IS_DELETED = 0
     <if test="loginName != null" >
       AND LOGIN_NAME LIKE "%"#{loginName,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="isValid != null" >
+      AND IS_VALID = ${isValid}
     </if>
   </select>
 </mapper>
