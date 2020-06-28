@@ -5,7 +5,10 @@
     <title>Index</title>
 </head>
 <body>
-This is Index.html
-${name}
+欢迎 ${name}登录<br/><a href="logout">退出登录</a><br/>
+<@shiro.hasPermission name="user:add">
+    新增用户:<a href="userAdd">添加用户</a><br/>
+</@shiro.hasPermission>
+更新用户:<a href="userUpdate">更新用户</a>
 </body>
 </html>

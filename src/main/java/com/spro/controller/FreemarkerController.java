@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * @description: TODO
+ * @description: freemarkerController控制类
  * @package_name: com.spro.controller
  * @data: 2020-5-21 14:15
  * @author: Sean
@@ -59,6 +59,26 @@ public class FreemarkerController {
         return "login";
     }
 
+    /**
+     * 访问login页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "userAdd")
+    public String userAdd(){
+        return "userInfo/add";
+    }
+
+    /**
+     * 访问login页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "userUpdate")
+    public String userUpdate(){
+        return "userInfo/update";
+    }
+
     @RequestMapping(value = "userLogin",method = RequestMethod.POST)
     public String userLogin(String userName,
                             String passWord,
@@ -86,5 +106,28 @@ public class FreemarkerController {
             model.addAttribute("errMsg","密码有误!!");
             return "login";
         }
+    }
+
+    /**
+     * 访问login页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "logout",method = RequestMethod.GET)
+    public String logout(){
+        logger.info("退出登录!!");
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "login";
+    }
+
+    /**
+     * 访问login页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "unAuth",method = RequestMethod.GET)
+    public String unAuth(){
+        return "unAuth";
     }
 }

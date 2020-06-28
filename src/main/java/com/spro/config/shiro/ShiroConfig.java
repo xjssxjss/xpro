@@ -49,6 +49,9 @@ public class ShiroConfig {
         //提交登录按钮不拦截
         filterMap.put("/freemarkerController/userLogin","anon");
 
+        //添加新增按钮过滤器
+        filterMap.put("/*/*Add","perms[user:add]");
+
         filterMap.put("/freemarkerController/*","authc");
         filterFactoryBean.setFilterChainDefinitionMap(filterMap);
 
@@ -56,6 +59,10 @@ public class ShiroConfig {
          * 设置跳转login页面
          */
         filterFactoryBean.setLoginUrl("/freemarkerController/login");
+        /**
+         * 设置无权限跳转页面
+         */
+        filterFactoryBean.setUnauthorizedUrl("/freemarkerController/unAuth");
         return filterFactoryBean;
     }
 
