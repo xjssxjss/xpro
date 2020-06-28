@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+</head>
+<body>
+无权限
+<h3>登录页</h3>
+    <div style="color:red;">${errMsg?default("")}</div>
+<form method="POST" action="userLogin">
+    用户名:<input name="userName" type="text"/><br/>
+    密码:<input name="passWord" type="password"/><br/>
+    <input type="submit" value="登录"><input type="reset" value="重置"/>
+</form>
+</body>
+</html>
