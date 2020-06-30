@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
-<body>
-欢迎 ${name}登录<br/><a href="logout">退出登录</a><br/>
+欢迎 <@shiro.principal /> 登录 <br/>
+<a href="logout">退出登录</a><br/>
 <@shiro.hasPermission name="user:add">
     新增用户:<a href="userAdd">添加用户</a><br/>
 </@shiro.hasPermission>

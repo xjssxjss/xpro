@@ -8,9 +8,10 @@
 无权限
 <h3>登录页</h3>
     <div style="color:red;">${errMsg?default("")}</div>
-<form method="POST" action="userLogin">
+<form method="POST" action="${basePath}/loginController/login">
     用户名:<input name="userName" type="text"/><br/>
     密码:<input name="passWord" type="password"/><br/>
+    验证码:<input name="textCode" type="text"> <img src="${basePath}/loginController/getImage" alt="图片无法显示!!"><br/>
     <input type="submit" value="登录"><input type="reset" value="重置"/>
 </form>
 </body>

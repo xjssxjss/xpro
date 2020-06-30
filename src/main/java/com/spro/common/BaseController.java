@@ -10,7 +10,6 @@ import java.util.Map;
 /**
  * Created by yahui.xie on 2002/06/02
  */
-@RestController
 @RequestMapping("/baseController")
 @EnableSwagger2
 public class BaseController extends BaseObject {
